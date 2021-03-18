@@ -273,8 +273,8 @@ var l_inat_pts = L.tileLayer(
       'docs/#!/Observation_Tiles/get_points_zoom_x_y_png">iNaturalist observation data</a>',
   }
 );
-var l_inat_cheat = L.vectorTileLayer(
-  s_inat_url + "  /{z}/{x}/{y}.png" + inat_query_string,
+var l_inat_cheat = L.tileLayer(
+  s_inat_url + "colored_heatmap/{z}/{x}/{y}.png" + inat_query_string,
   {
     maxZoom: 20,
     attribution:
@@ -316,7 +316,7 @@ function fpopup(obs) {
   }
   s += `<h3>${name}</h3>`;
 
-  s +=obs.user.icon_url === null? "": `<img class='user-icon' src=${obs.user.icon_url}/></br>`;
+  s +=obs.user.icon_url === null? "": `<img class='user-icon' src=${obs.user.icon_url}/></br`;
 
 
   s +=
