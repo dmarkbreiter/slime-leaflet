@@ -450,7 +450,7 @@ var l_inat_taxonrange = L.tileLayer(
 var mymap = L.map("mapid", {
   center: [34.082, -118.2],
   zoom: 8,
-  layers: [l_carto_voyager, g_inat_pts],
+  layers: [l_carto_voyager, g_inat_cheat],
   doubleClickZoom: false,
 });
 
@@ -489,12 +489,12 @@ var overlaymaps = {
   //"Carto Voyager Labels": l_carto_voyagerlabels,
   //"Stamen Terrain Labels": l_stamen_terrainlabels,
   //"Stamen Toner ": l_stamen_tonerlabels,
-  "iNaturalist Taxon Range": l_inat_taxonrange,
-  "iNaturalist Taxon Places": l_inat_taxonplace,
-  "iNaturalist Place": l_inat_place,
+  //"iNaturalist Taxon Range": l_inat_taxonrange,
+  //"iNaturalist Taxon Places": l_inat_taxonplace,
+  //"iNaturalist Place": l_inat_place,
   "iNaturalist Heatmap": l_inat_heat,
   "iNaturalist Circles": g_inat_cheat,
-  "iNaturalist Points": g_inat_pts,
+  //"iNaturalist Points": g_inat_pts,
 };
 
 // add a layer selector control and scale bar
