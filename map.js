@@ -316,7 +316,7 @@ function fpopup(obs) {
   }
   s += `<h3>${name}</h3>`;
 
-  s +=obs.user.icon_url === null? "": `<img class='user-icon' src=${obs.user.icon_url}/></br`;
+  s +=obs.user.icon_url === null? "": `<img class='user-icon' src=${obs.user.icon_url}/>`;
 
 
   s +=
