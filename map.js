@@ -450,7 +450,7 @@ var l_inat_taxonrange = L.tileLayer(
 var mymap = L.map("mapid", {
   center: [34.082, -118.2],
   zoom: 8,
-  layers: [l_carto_voyager, g_inat_cheat],
+  layers: [l_carto_light, g_inat_cheat],
   doubleClickZoom: false,
 });
 
