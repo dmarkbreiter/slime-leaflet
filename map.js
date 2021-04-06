@@ -250,8 +250,8 @@ var inat_query_string = fbuildqs([
   //   'color=magenta', //set the color of the pins, circles, and heatmap
   //   'id=26357908,26454874', //observation id; separate values with comma
   //   'user_id=pisum', //separate values with comma
-  "place_id=51727", //separate values with comma
-  "project_id=snailblitz-2021", //separate values with comma
+       "place_id=51727", //separate values with comma
+       "project_id=snailblitz-2021", //separate values with comma
   //   'taxon_id=47114', //separate values with comma
   //   'd1=2019/04/01', // date range from
   //   'd2=2019/04/30', // date range to
@@ -296,14 +296,13 @@ var l_inat_heat = L.tileLayer(
 
 // Create iNaturalist UTFGrids and pair each with an observation tileset from above (skip heatmap, since there aren't distinct points in that)
 function fpopup(obs) {
-  console.log(obs)
 
-  var s =
+  const headers =
   (obs.taxon === null
     ? "[Unknown]"
     : "<h1>" + obs.taxon.preferred_common_name + "</h1><h2>" + "(" + obs.taxon.name + ")</h2>");
 
-  s +=
+  const specimenPhoto =
     obs.photos.length == 0
       ? ""
       : '<img class="specimen-photo" src="' + obs.photos[0].url.replace("square", "small") + '" />';
@@ -314,60 +313,59 @@ function fpopup(obs) {
   } else {
     var name = obs.user.login
   }
-  s += `<h3>${name}</h3>`;
 
-  s +=obs.user.icon_url === null? "": `<img class='user-icon' src=${obs.user.icon_url}/>`;
+  const placeholderProfilePic = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400px" height="400px" viewBox="0 0 400 400" version="1.1">
+  <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+  <title>Artboard 2</title>
+  <desc>Created with Sketch.</desc>
+  <defs/>
+  <g id="wireframes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g id="Artboard-2">
+          <g id="Group">
+              <circle id="Oval-4" fill="#E4E4E4" cx="200" cy="200" r="200"/>
+              <g id="Contacts_000000" transform="translate(114.285714, 105.714286)" fill-rule="nonzero" fill="#000000">
+                  <path d="M85.7142857,0 C52.6787314,0 25.7142857,26.9644397 25.7142857,60 C25.7142857,80.5119771 36.1747114,98.7240429 51.9642857,109.553571 C21.3047486,122.596483 0,153.084694 0,188.571429 L17.1428571,188.571429 C17.1428571,150.285711 47.4285686,120 85.7142857,120 C124.000003,120 154.285714,150.285711 154.285714,188.571429 L171.428571,188.571429 C171.428571,153.084694 150.123823,122.596483 119.464286,109.553571 C135.25386,98.7240429 145.714286,80.5119771 145.714286,60 C145.714286,26.9644397 118.74984,0 85.7142857,0 Z M85.7142857,17.1428571 C109.485154,17.1428571 128.571429,36.2291289 128.571429,60 C128.571429,83.7708686 109.485154,102.857143 85.7142857,102.857143 C61.9434171,102.857143 42.8571429,83.7708686 42.8571429,60 C42.8571429,36.2291289 61.9434171,17.1428571 85.7142857,17.1428571 Z" id="Shape"/>
+              </g>
+          </g>
+      </g>
+  </g>
+  </svg>`
 
+  const userName = `<h3>${name}</h3>`;
+  const userIcon = obs.user.icon_url === null? placeholderProfilePic: `<img class='user-icon' src=${obs.user.icon_url}/>`;
 
-  s +=
+  const observationUri =
     'observation #: <a href="' +
     obs.uri +
     '">' +
     obs.id +
     "</a>";
-  /*
-  s +=
-    "<br />observer: " +
-    obs.user.login +
-    "<br />location: " +
-    obs.place_guess +
-    "<br />coordinates: " +
-    Math.round(obs.geojson.coordinates[1] * 1000000) / 1000000 +
-    ", " +
-    Math.round(obs.geojson.coordinates[0] * 1000000) / 1000000;
-  //s += (obs.positional_accuracy===null) ? '' : ' ('+Math.round(obs.positional_accuracy*10)/10+'m)';
-  s +=
-    "<br />observed: " +
-    (obs.time_observed_at === null
-      ? obs.observed_on === null
-        ? "[Unknown]"
-        : obs.observed_on
-      : obs.time_observed_at.replace("T", " "));
-  //s += '<br />created: '+((obs.created_at===null) ? obs.created_at_details.date : obs.created_at.replace('T',' '));
-  //s += '<br />last updated: '+obs.updated_at.replace('T',' ');
-  */
+
   if (obs.description === null) {
   } else if (obs.description.length < 200) {
-    s += "<br />" + obs.description;
+    var observationDescription = "<br />" + obs.description;
   } else {
-    s += "<br />" + (obs.description.substring(0, 200) + "... (more)");
+    var observationDescription = "<br />" + (obs.description.substring(0, 200) + "... (more)");
   }
   const popupOptions = {
     className: 'popup',
   } 
 
+  popupContent = `${headers}<div class='flex-container'><div>${specimenPhoto}</div><div>${userIcon + userName + observationUri}<div></div>`
+
   L.popup(popupOptions)
     .setLatLng([obs.geojson.coordinates[1], obs.geojson.coordinates[0]])
-    .setContent(s)
+    .setContent(popupContent)
     .openOn(mymap);
   document.getElementsByClassName('leaflet-popup-content')[0].style.width ="auto";
   console.log(obs.user.login)
 }
 
 var u_inat_pts = L.utfGrid(
-  s_inat_url + "points/{z}/{x}/{y}.grid.json" + inat_query_string,
+  s_inat_url + "points/{z}/{x}/{y}color=blue.grid.json" + inat_query_string,
   { maxZoom: 20 }
 ); //no attribution here because it won't ever exist on its own
+
 u_inat_pts.on("click", function (e) {
   // "mouseover" and "mouseout" events not used here
   if (e.data) {
